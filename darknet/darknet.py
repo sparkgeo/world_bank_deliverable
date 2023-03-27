@@ -13,6 +13,7 @@ import math
 import random
 import os
 import numpy as np
+import cv2
 
 class BOX(Structure):
     _fields_ = [("x", c_float),
@@ -230,10 +231,29 @@ def detect_image(network, class_names, image, thresh=.5, hier_thresh=.5, nms=.45
     free_detections(detections, num)
     return sorted(predictions, key=lambda x: x[1])
 
+def generate_darknet_image(image: cv2.Mat, network_width: int, network_height: int):
+    # Get our image dimensions
+    height, width, channels = image.shape
+
+    # Generate our "darknet image"
+    darknet_image = make_image(width, height, 3)
+    bgr_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    resized_image = cv2.resize(bgr_image, (width, height), interpolation=cv2.INTER_LANCZOS4)
+
+    # Calculate our ratios
+    ratio_width = width / network_width
+    ratio_height = height / network_height
+
+    # Copy our image into the darknet image
+    copy_image_from_bytes(darknet_image, resized_image.tobytes())
+
+    return darknet_image, ratio_width, ratio_height
 
 if os.name == "posix":
-    cwd = os.path.dirname(__file__)
-    lib = CDLL(cwd + "/libdarknet.so", RTLD_GLOBAL)
+    # cwd = os.path.dirname(__file__)
+    # lib = CDLL(cwd + "/libdarknet.so", RTLD_GLOBAL)
+    pdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+    lib = CDLL(pdir + "/lib/libdarknet.so", RTLD_GLOBAL)
 elif os.name == "nt":
     cwd = os.path.dirname(__file__)
     os.environ['PATH'] = cwd + ';' + os.environ['PATH']
