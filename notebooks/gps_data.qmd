@@ -1,0 +1,114 @@
+---
+title: "GPS Data"
+format: html
+editor: visual
+---
+
+# Beitbridge Truck GPS
+
+-   This notebook is for checking data quality on the GPS data
+
+-   Subsetting for our Study Period
+
+-   Adding zeros to dates where no data was collected
+
+```{r}
+library(readr)
+library(tidyverse)
+library(skimr)
+library(lubridate)
+```
+
+Read in the raw data
+
+```{r}
+gps_data = read_csv("../data/raw/Beitbridge_Border_2017_02_01_to_2023_02_28.csv")
+```
+
+Remove redundant field names and grand total from rest of table
+
+```{r}
+#fix column names
+gps_data = gps_data %>% rename_with(~ str_remove(., "Border_Crossing_"), everything())
+# remove grand total row
+grand_total = gps_data[1,]
+gps_data =  gps_data[-1,]
+```
+
+```{r}
+skim(gps_data)
+```
+
+## Cut the data for our Study Period
+
+-   remove extra fields
+
+-   Format StartDate as date
+
+-   Replace spaces between Direction field for consistency
+
+```{r}
+gps_data = gps_data%>%
+  filter(between(year(StartDate), 2018, 2022))%>%
+  select(-c(IsGrandTotalRowTotal, GeozoneName, ProjectID))%>%
+  mutate(StartDate = as_date(StartDate),
+         Direction = str_replace_all(Direction," ",""))
+
+sa_zimbabwe = gps_data %>%
+  filter(Direction == "SA-Zimbabwe")
+
+zimbabwe_sa = gps_data %>%
+  filter(Direction == "Zimbabwe-SA")
+```
+
+## Data Quality
+
+-   Start_hour - not consistent need to add zeros to count events and other fields
+
+-   Create a new `date_table` containing all of the dates and hours for our study period
+
+```{r}
+#YMD
+#Hours 0 to 23
+
+start_date = ymd_hm("2018-01-01 00:00")
+end_date = ymd_hm("2022-12-31 23:00")
+date_table = data.frame(StartDate = seq(start_date, end_date, by="hour"))
+
+date_table = date_table %>%
+  mutate(StartHour = hour(StartDate))%>%
+  mutate(StartDate = as_date(StartDate))
+```
+
+Join our gps data from each subset to our date table to fill in missing start hours and values with zero.
+
+Replace only Count_Events with zero and all na values applied to medians
+
+```{r}
+sa_zimbabwe= sa_zimbabwe %>%
+  full_join(date_table)%>%
+  mutate(Direction = "SA-Zimbabwe")%>%
+  mutate(across(c(Count_Events), ~replace_na(.x,0)))%>%
+  arrange(StartDate, StartHour)
+  
+```
+
+```{r}
+zimbabwe_sa = zimbabwe_sa %>%
+  full_join(date_table)%>%
+  mutate(Direction = "Zimbabwe-SA")%>%
+  mutate(across(c(Count_Events), ~replace_na(.x,0)))%>%
+  arrange(StartDate, StartHour)
+```
+
+Put it back together into one
+
+```{r}
+beitbridge_border = bind_rows(zimbabwe_sa, sa_zimbabwe)
+```
+
+Save the data to a new csv
+
+```{r}
+write_csv(beitbridge_border, "../data/processed/Beitbridge_Counts_Wait_Time_2018_2022.csv")
+```
