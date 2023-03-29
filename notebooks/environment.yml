@@ -1,0 +1,11 @@
+name: osm-extract
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip
+  - osmnx
+  - geopandas
+  - jupyterlab
+  - notebook
+  
