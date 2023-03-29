@@ -1,5 +1,10 @@
 # World Bank Notebooks
 
+## Notebooks
+
+`Comtrade_Trade_Data` - Quick example of getting trade related information for a given country 
+
+`gps_data` - Data cleaning of the Beitbridge Truck Data.
 ## Folder Structure
 
 - data
@@ -13,6 +18,7 @@
     - data science notebooks
 - src
     - for scripts
+
 
 ## Docker
 

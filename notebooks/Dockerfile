@@ -7,7 +7,7 @@ COPY environment.yml .
 RUN mamba env create -f environment.yml
 
 # Make RUN commands use the new environment:
-SHELL ["conda", "run", "-n", "osm-extract", "/bin/bash", "-c"]
+SHELL ["conda", "run", "-n", "wbnb", "/bin/bash", "-c"]
 
 # Demonstrate the environment is activated:
 RUN echo "Make sure osmx installed:"
