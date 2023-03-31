@@ -4,7 +4,7 @@ format: html
 editor: visual
 ---
 
-# Beitbridge Truck GPS Data 
+# Beitbridge Truck GPS Data
 
 ## Data Cleaning
 
