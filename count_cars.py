@@ -19,7 +19,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("-d", "--detection-file", type=str, required=True, help="Path to the detection file.")
     ap.add_argument("-i", "--intersect-file", type=str, required=True, help="Path to the intersection file.")
-    ap.add_argument("-o", "--output-json", type=str, required=False, help="Output JSON file to write.")
+    ap.add_argument("-o", "--output-json", type=str, required=True, help="Output JSON file to write.")
     args = vars(ap.parse_args())
     
     try:
@@ -50,6 +50,10 @@ def main():
         print("Individual areas of the intersection")
         for index, row in intersection_df.iterrows():
             print(f"Class: {row['class']} Confidence: {row['confidence']} Area: {row['area']} square meters")
+
+        # Write to a file
+        with open(args["output_json"], "w") as outjson:
+            outjson.write(intersection_df.to_json())
 
     except Exception as e:
         print(f"Got exception {e} during processing.")
