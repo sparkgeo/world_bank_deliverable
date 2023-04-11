@@ -1,0 +1,17 @@
+name: wb-tdi
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - geopandas
+  - jupyterlab
+  - plotly
+  - rasterio
+  - requests
+  - rioxarray
+  - scikit-image
+  - scikit-learn
+  - xarray
+  - pip
+  - pip:
+    - kaleido

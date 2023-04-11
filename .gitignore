@@ -130,3 +130,9 @@ dmypy.json
 
 # IDEs
 .vscode/
+
+#Mac
+.DS_Store
+
+#VSCode Workspace
+*.code-workspace
