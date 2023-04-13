@@ -6,11 +6,13 @@ editor: visual
 
 # Beitbridge Truck GPS Data
 
+-   This notebook is cleaning the GPS data obtained by World Bank for future modelling and analysis,
+
 ## Data Cleaning
 
 -   This notebook is for checking data quality on the GPS data
 
--   Subsetting for our Study Period
+-   Subsetting the data for our Study Period (2018-2022)
 
 -   Adding zeros to dates where no data was collected
 
@@ -39,6 +41,8 @@ gps_data = gps_data %>%
 grand_total = gps_data[1,]
 gps_data =  gps_data[-1,]
 ```
+
+We can use skim to get a quick overview of the data:
 
 ```{r}
 skim(gps_data)
@@ -93,7 +97,9 @@ date_table = date_table %>%
 
 -   Join our gps data from each subset to our date table to fill in missing start hours and values with zero.
 
--   Replace only Count_Events with zero and all na values applied to medians.
+-   Replace only Count_Events with zero and all `na` values applied to medians.
+
+-   We'll do this for both `sa_zimbabwe` and `zimbabwe_sa`
 
 ```{r}
 sa_zimbabwe = sa_zimbabwe %>%
