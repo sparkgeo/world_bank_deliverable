@@ -130,6 +130,29 @@ dmypy.json
 
 # IDEs
 .vscode/
+
 .Rproj.user
 
 notebooks/.Rhistory
+
+
+#Mac
+.DS_Store
+
+#VSCode Workspace
+*.code-workspace
+notebooks/.Rhistory
+
+### R ###
+# History files
+.Rhistory
+.Rapp.history
+.Rproj.user
+
+# Session Data files
+.RData
+.RDataTmp
+
+# R Environment Variables
+.Renviro
+
