@@ -1,0 +1,196 @@
+---
+title: "Extract Important Dates"
+format: html
+editor: visual
+---
+
+
+This notebook is for extracting dates out of both the border wait time data and important dates for the Beitbridge border crossing. The important dates data set was generated through searching news articles, YouTube and other sources related to delays at the border crossing.
+
+```{r}
+library(readr)
+library(dplyr)
+library(lubridate)
+library(tidyverse)
+library(stringr)
+```
+
+```{r}
+important_dates = read_csv("../data/raw/beitbridge_dates_of_interest.csv")
+
+border_data = read_csv("../data/processed/Beitbridge_Counts_Wait_Time_2018_2022.csv")
+```
+Format the important dates data to have start and end dates. Here we are splitting based on the arrow symbol. This is an artifact from Notion DB.
+
+```{r}
+important_dates = important_dates %>%
+  mutate(start_date = mdy(if_else(str_detect(Date, '→'),
+                              str_split(important_dates$Date, '→', n=2, simplify = TRUE)[,1],
+                              Date)),
+         end_date = mdy(if_else(str_detect(Date, '→'),
+                              str_split(important_dates$Date, '→', n=2, simplify = TRUE)[,2],
+                              Date)))
+```
+
+Format the border crossing dates as date time
+```{r}
+border_data$datetime <- ymd_h(paste(border_data$StartDate, border_data$StartHour))
+```
+
+Function to splice the data based on a date range for border data
+```{r}
+# Function for selecting a range of dates for border data with StartDate field
+get_specific_dates = function(start_date, end_date, data){
+  int = interval(ymd(start_date), ymd(end_date))
+  df = data %>%
+    filter(StartDate %within% int)
+  df
+}
+```
+
+Apply the function to our border data. Here we're using the dates where we know there was an event and where we have high res imagery.
+
+```{r}
+# Get December 2022
+df = get_specific_dates('2022-12-24', '2022-12-24', border_data)
+
+```
+
+```{r}
+start_date = '2022-12-24'
+end_date = '2022-12-24'
+int = interval(ymd(start_date), ymd(end_date))
+important_dates %>% filter(start_date %within% int)
+
+```
+
+## Plots
+
+```{r}
+df %>%
+  ggplot(aes(x = Count_Events, y = Median_Minutes, group = Direction, col = Direction)) + 
+  geom_point() +
+  scale_color_viridis_d(alpha=0.3,option = "plasma", end = .7) +
+  labs(y =" Median Minutes", x = "Total Count", title = "Border Wait Time and Counts", subtitle = "December 24th, 2022")
+```
+
+
+
+```{r}
+df %>%
+  ggplot(aes(x = StartHour, y = Median_Minutes, group= as_factor(Direction), col = as_factor(Direction))) + 
+  geom_point(alpha = 0.7) +
+  geom_line()+
+  scale_color_viridis_d(option = "plasma", end = .7)+
+  labs(x= 'Hour of Day', y = 'Median Minutes', col="Direction", title = 'December 24, 2022', caption = "*Note missing data")
+```
+
+
+```{r}
+df %>%
+  ggplot(aes(x = StartHour, y = Count_Events, group= as_factor(Direction), col = as_factor(Direction))) + 
+  geom_point(alpha = 0.7) +
+  geom_line()+
+  scale_color_viridis_d(option = "plasma", end = .7)+
+  labs(x= 'Hour', y = 'Count', col="Direction", title = 'December 24, 2022')
+```
+## Cumulative Sum
+
+```{r}
+df %>% 
+  group_by(Direction)%>%
+  mutate(cumulative_count = cumsum(Count_Events))%>%
+  ggplot(aes(x = StartHour, y = cumulative_count , group= as_factor(Direction), col = as_factor(Direction))) + 
+  geom_point(alpha = 0.7) +
+  geom_line()+
+  scale_color_viridis_d(option = "plasma", end = .7)+
+  labs(x= 'Hour', y = 'Cumulative Sum', col="Direction", title = 'December 24, 2022')
+```
+
+```{r}
+df %>% 
+  group_by(Direction)%>%
+  mutate(cumulative_count = cumsum(Count_Events))%>%
+  ggplot(aes(x = StartHour, y = cumulative_count , group= as_factor(Direction), col = as_factor(Direction))) + 
+  geom_point(alpha = 0.7) +
+  geom_line()+
+  scale_color_viridis_d(option = "plasma", end = .7)+
+  labs(x= 'Hour', y = 'Cumulative Sum', col="Direction", title = 'December 24, 2022')
+```
+
+
+## Month Plots
+
+The plots below are looking at the month of December 2022.
+
+```{r}
+border_data %>%
+    filter(year(StartDate)=='2022', month(StartDate)==12)%>%
+    group_by(Direction, StartDate)%>%
+    arrange(Direction, StartDate)%>%
+    summarize(daily_count = sum(Count_Events, na.rm=T))%>%
+    mutate(cumulative_sum =  cumsum(daily_count))%>%
+  ggplot(aes(x = StartDate, y = cumulative_sum , group= as_factor(Direction), col = as_factor(Direction))) + 
+  geom_point(alpha = 0.7) +
+  geom_line()+
+  scale_color_viridis_d(option = "plasma", end = .7)+
+  labs(x= 'Date', y = 'Cumulative Sum', col="Direction", title = 'December, 2022')
+```
+
+
+```{r}
+border_data %>%
+  filter(year(StartDate)=='2022', month(StartDate)==12)%>%
+  group_by(StartDate, Direction)%>%
+  summarize(max_median = max(Median_Minutes,na.rm=T))%>%
+  ggplot(aes(x=StartDate,y = max_median, group= as_factor(Direction), col = as_factor(Direction))) + 
+  geom_point(alpha = 0.7) +
+  geom_line()+
+  scale_color_viridis_d(option = "plasma", end = .7)+
+  scale_x_date(date_labels = "%d",date_breaks = '2 days', limits =c(as_date('2022-12-01'),as_date('2022-12-31') )) +
+  theme(axis.text.x=element_text(angle=60, hjust=1)) +
+  labs(x= 'Day', y = 'Max Daily Median Wait Time', col="Direction", title = 'December 2022')
+```
+
+## Hourly Scatter Plots
+
+
+
+
+```{r}
+border_data %>%
+    filter(Direction == 'SA-Zimbabwe')%>%
+    filter(year(StartDate)=='2022', month(StartDate)==12)%>%
+    ggplot(aes(x=datetime, y=Median_Minutes, group=as_factor(Direction), col=as_factor(Direction)))+
+    geom_point(alpha = 0.7) +
+    #geom_line()+
+    labs(x= 'Day', y = 'Median Hourly Wait Time', col="Direction", title = 'December 2022')
+    scale_color_viridis_d(option = "plasma", end = .7)
+```
+
+```{r}
+border_data %>%
+    filter(Direction == 'Zimbabwe-SA')%>%
+    filter(year(StartDate)=='2022', month(StartDate)==12)%>%
+    ggplot(aes(x=datetime, y=Median_Minutes, group=as_factor(Direction), col=as_factor(Direction)))+
+    geom_point(alpha = 0.7) +
+    #geom_line()+
+    labs(x= 'Day', y = 'Median Hourly Wait Time', col="Direction", title = 'December 2022')
+    scale_color_viridis_d(option = "magma", end = .7)
+```
+
+
+
+
+```{r}
+border_data %>%
+  filter(year(StartDate)=='2022', month(StartDate)==12)%>%
+  group_by(StartDate, Direction)%>%
+  summarize(Total_Count= sum(Count_Events,na.rm=T))%>%
+  ggplot(aes(x=StartDate,y = Total_Count, group= as_factor(Direction), col = as_factor(Direction))) + 
+  geom_point(alpha = 0.7) +
+  geom_line()+
+  scale_color_viridis_d(option = "plasma", end = .7)+
+  labs(x= 'Day', y = 'Total Count', col="Direction", title = 'December 2022')
+```
+
