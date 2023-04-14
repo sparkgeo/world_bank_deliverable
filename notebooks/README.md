@@ -6,17 +6,19 @@
 
 `gps_data` - Data cleaning of the Beitbridge Truck Data.
 
-`Get_Building_Data` - Retrieving Microsoft Buildings, Google Open Buildings and OSM Data.
+`Extract_dates` - extract dates from news articles and GPS data
 
-`OSM_Queries` - OSM Queries for Assets (Note: Unfortunately not many visible in our POC)
+`gps_eda` - explore border wait time data with plots and summary statistics
 
-`Spatial Analysis` - Spatial Analysis of spatial data sets, Change Detection in area and count of assets. Plotting, interactive map.
+`gps_modelling` - timeseries modelling for border wait time (incomplete)
 
-`Traffic Density Index` - How to calculate TDI
+`MS_OSM_Data_download` - Retrieving Microsoft Buildings, Google Open Buildings and OSM Data.
 
+`tdi/tdi-notebook` - How to calculate TDI from Planetscope Imagery
+
+
+TODO:
 `Object Detection` - call `.py` test image `--output` with output folder, results, save
-
-`GPS Data, TDI and Truck Counts` - Combining all three data sets and modelling / plotting the relationships.
 
 ## Folder Structure
 
@@ -34,7 +36,7 @@
 
 ## Conda or Mamba
 
-To build the environmentl from a `yml` file using mamba (recommended)
+To build the environment from a `yml` file using mamba (recommended)
 
 `mamba env create -f environment.yml`
 
