@@ -32,6 +32,11 @@
 - src
     - for scripts
 
+## Conda or Mamba
+
+To build the environmentl from a `yml` file using mamba (recommended)
+
+`mamba env create -f environment.yml`
 
 ## Docker
 
