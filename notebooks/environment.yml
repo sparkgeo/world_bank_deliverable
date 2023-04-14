@@ -9,6 +9,8 @@ dependencies:
   - gdal >=1.11
   - matplotlib
   - geopandas
+  - geojson
+  - pyproj
   - ca-certificates
   - certifi
   - openssl
@@ -16,6 +18,8 @@ dependencies:
   - numpy
   - pandas
   - shapely
+  - dask-geopandas
+  - planetary-computer
   - ipykernel
   - pip
   - pip:
