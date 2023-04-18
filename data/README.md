@@ -1,6 +1,5 @@
-- data
---raw 
---processed
+# Project Data
+This directory holds the project data for the World Bank project.
 
-- raw data as provided
-- processed for data that has been cleaned or processed in some way
+* **raw**: Raw data as provided
+* **processed**: Data that has been cleaned or processed in some way

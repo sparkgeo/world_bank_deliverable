@@ -1,5 +1,5 @@
 classes = 22
 train = sparkgeo/merged/train.txt
 valid = sparkgeo/merged/test.txt
-names = /home/bmaddox/src/worldbank/darknetab/sparkgeo/merged/sparkgeo.names
+names = sparkgeo/merged/sparkgeo.names
 backup = sparkgeo/merged/weights
