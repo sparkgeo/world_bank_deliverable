@@ -7,12 +7,15 @@ This application will run a darknet model against a passed in image and create a
 with the bounding boxes found.
 """
 
-
-from darknet import darknet
 import argparse
 import cv2
 import os
 import json
+import sys
+pdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+sys.path.append(pdir)
+from darknet import darknet
+
 
 # Our template string for each JSON item
 template_str = """

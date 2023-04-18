@@ -7,8 +7,7 @@ This application will run a darknet model against a passed in image and create a
 with the bounding boxes found.
 """
 
-
-from darknet import darknet
+import sys
 from osgeo import gdal
 from osgeo import osr 
 import argparse
@@ -16,6 +15,9 @@ import cv2
 import os
 import json
 import geojson
+pdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+sys.path.append(pdir)
+from darknet import darknet
 
 def generate_polygon(in_geo_transform: list, left: int, top: int, right: int, bottom: int) -> geojson.Polygon:
     """Convert the passed-in coordinates to a GeoJSON polygon
