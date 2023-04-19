@@ -13,6 +13,8 @@ format:
     link-external-newwindow: true
     code-block-bg: true
     code-block-border-left: "#31BAE9"
+    df-print: kable
+output_dir: "../outputs"
 execute:
   warning: false
 ---
@@ -29,12 +31,7 @@ This notebook is cleaning the GPS data obtained by World Bank for future modelli
 
 ## Load Libraries
 
-```{r}
-library(readr)
-library(tidyverse)
-library(skimr)
-library(lubridate)
-```
+::: {.callout-note}
 
 We'll be using `tidyverse` packages to read in and manipulate our data.
 
@@ -43,6 +40,17 @@ We'll be using `tidyverse` packages to read in and manipulate our data.
 -   `skimr` provides a quick summary of tabular data
 
 -   `lubridate` is for working with date formats and time series
+
+:::
+
+
+```{r}
+library(readr)
+library(tidyverse)
+library(skimr)
+library(lubridate)
+```
+
 
 Read in the raw data:
 

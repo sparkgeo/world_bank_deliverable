@@ -1,7 +1,14 @@
 ---
 title: "Beitbridge Time Series Modelling"
-format: html
-editor: visual
+toc: true
+format:
+  html:
+    html-math-method: katex
+    code-tools: true
+    self-contained: true
+execute:
+  warning: false
+  cache: true
 ---
 
 The following notebook is not complete.\
@@ -63,37 +70,6 @@ sa_zimbabwe = border_data %>% filter(Direction == "SA-Zimbabwe")
 zimbabwe_sa = border_data %>% filter(Direction == "Zimbabwe-SA")
 ```
 
-
-```{r}
-
-# Convert date and hour columns to datetime format
-#border_data$datetime <- as.POSIXct(paste(border_data$StartDate, border_data$StartHour), format = "%Y-%m-%d %H")
-
-zimbabwe_sa$datetime <- ymd_h(paste(zimbabwe_sa$StartDate, zimbabwe_sa$StartHour))
-# Set datetime as the index column
-zimbabwe_sa_ts <- zimbabwe_sa %>% select(datetime, Median_Minutes) %>% 
-  as_tsibble(index = datetime)
-
-# Split the data into training and testing sets
-zimbabwe_sa_train <- window(zimbabwe_sa_ts, end =ymd(as.Date("2018-12-31")))
-zimbabwe_sa_test <- window(zimbabwe_sa_ts, start = c(2021,12,31))
-
-# Fit an ARIMA model to the training data
-border_model <- auto.arima(zimbabwe_sa_train$median_wait_time)
-
-# Forecast the wait times for the testing set
-border_forecast <- forecast(border_model, h = length(zimbabwe_sa_test))
-
-# Plot the predicted vs. actual wait times
-autoplot(border_forecast, series = "Prediction") +
-  autolayer(zimbabwe_sa_test, series = "Actual", color = "blue") +
-  xlab("Date") + ylab("Median Wait Time (minutes)") +
-  ggtitle("Predicted vs. Actual Border Wait Times")
-
-
-```
-
-
 ## Caret 
 
 ```{r}
@@ -133,13 +109,19 @@ mae <- mean(abs(border_predictions - border_data_test$Median_Minutes))
 # Print the MAE
 print(mae)
 ```
+
+
 ```{r}
 summary(border_model)
 ```
 
 ## Random Forests 
 
-This will take awhile to run on a laptop**
+::: {.callout-important}
+This will take awhile to run on a laptop! 
+Beware of running below:
+:::
+
 
 ```{r}
 library(caret)
