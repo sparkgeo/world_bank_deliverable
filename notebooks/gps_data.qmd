@@ -1,12 +1,23 @@
 ---
 title: "Beitbridge Truck GPS Data"
-format: html
-editor: visual
+author: "Sparkgeo"
+toc: true
+format:
+  html:
+    theme: zephyr
+    html-math-method: katex
+    code-tools: true
+    self-contained: true
+    embed-resources: true
+    link-external-icon: true
+    link-external-newwindow: true
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+execute:
+  warning: false
 ---
 
-# Beitbridge Truck GPS Data
-
--   This notebook is cleaning the GPS data obtained by World Bank for future modelling and analysis,
+This notebook is cleaning the GPS data obtained by World Bank for future modelling and analysis.
 
 ## Data Cleaning
 
@@ -14,7 +25,9 @@ editor: visual
 
 -   Subsetting the data for our Study Period (2018-2022)
 
--   Adding zeros to dates where no data was collected
+-   Adding zeros and na values for completenesss since not every hour or every day is represented consistently in this data.
+
+## Load Libraries
 
 ```{r}
 library(readr)
@@ -24,6 +37,12 @@ library(lubridate)
 ```
 
 We'll be using `tidyverse` packages to read in and manipulate our data.
+
+-   `readr` is for reading in tabular data
+
+-   `skimr` provides a quick summary of tabular data
+
+-   `lubridate` is for working with date formats and time series
 
 Read in the raw data:
 
@@ -77,7 +96,7 @@ zimbabwe_sa = gps_data %>%
 
 ## Data Quality
 
--   Start_hour - is not consistent need to add zeros to count events and other fields.
+-   `Start_hour` - is not consistent need to add zeros to count events and other fields.
 
 -   Create a new `date_table` containing all of the dates and hours for our study period.
 
