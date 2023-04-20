@@ -3,7 +3,6 @@
 Here you'll find various notebooks created by Sparkgeo.
 ## Notebooks
 
-`Comtrade_Trade_Data` - Quick example of getting trade related information for a given country 
 
 `gps_data` - Data cleaning of the Beitbridge Truck Data.
 
@@ -23,15 +22,14 @@ TODO:
 
 ## Folder Structure
 
-- data
+- ../data
     - raw 
     - processed
-- models
-    - for model development
-- outputs
-    - outputs of any notebooks
 - notebooks
     - data science notebooks
+    
+  - _outputs
+      - outputs of any notebooks
 - src
     - for scripts
 
@@ -51,9 +49,6 @@ To replicate the R environment, you can simply `install.packages('renv')` and op
 
 Review (Quarto's Quickstart)[https://quarto.org/docs/get-started/] for installation instructions.
 
-To regenerate any pdfs from Quarto, the appropriate pdf engine must be installed:
-
-`quarto install tool tinytex`
 
 To regenerate outputs from Quarto:
 
@@ -77,8 +72,6 @@ Additionally, you can just run the notebooks in iterative mode:
 `docker run -it -p 8888:8888 jupyter/scipy-notebook:0fd03d9356de`
 
 `docker run -it --rm -p 8888:8888 -v "${PWD}":/home/jovyan/work wbnb`
-
-
 
 `docker run -it --rm \
     -p 8888:8888 \
