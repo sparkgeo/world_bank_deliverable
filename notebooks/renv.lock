@@ -2394,14 +2394,14 @@
     },
     "xfun": {
       "Package": "xfun",
-      "Version": "0.31",
+      "Version": "0.38",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "stats",
         "tools"
       ],
-      "Hash": "a318c6f752b8dcfe9fb74d897418ab2b"
+      "Hash": "1ed71215d45e85562d3b1b29a068ccec"
     },
     "xml2": {
       "Package": "xml2",

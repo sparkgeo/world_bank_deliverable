@@ -1,5 +1,6 @@
 # World Bank Notebooks
 
+Here you'll find various notebooks created by Sparkgeo.
 ## Notebooks
 
 `Comtrade_Trade_Data` - Quick example of getting trade related information for a given country 
@@ -44,6 +45,21 @@ To build the environment from a `yml` file using mamba (recommended)
 
 To replicate the R environment, you can simply `install.packages('renv')` and open up the R Project file and run `renv::restore()` to restore the `renv` lockfile to load in all the appropriate libraries.
 
+## Quarto
+
+(Quarto)[https://quarto.org/] is an open-source scientific and technical publishing system.
+
+Review (Quarto's Quickstart)[https://quarto.org/docs/get-started/] for installation instructions.
+
+To regenerate any pdfs from Quarto, the appropriate pdf engine must be installed:
+
+`quarto install tool tinytex`
+
+To regenerate outputs from Quarto:
+
+`quarto render hello.ipynb --to html`
+
+`quarto render hello.ipynb --to docx`
 ## Docker
 
 Build the docker container
