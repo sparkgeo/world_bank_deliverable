@@ -8,7 +8,6 @@ format:
     self-contained: true
 execute:
   warning: false
-  cache: true
 ---
 
 The following notebook is not complete.\
@@ -19,17 +18,17 @@ The intention of this notebook is to attempt to model border wait time based on 
 
 To approach this problem, we can use a time-series analysis technique. Since we are given data over three years, we can split it into training and testing datasets to evaluate the model's performance. Here are the steps I would take:
 
-1\. Data exploration and cleaning: Explore the dataset to check for any missing or inconsistent data. Also, visualize the data to understand its patterns and trends.
+1\. **Data exploration and cleaning:** Explore the dataset to check for any missing or inconsistent data. Also, visualize the data to understand its patterns and trends. This was done in our `gps_eda.qmd` notebook.
 
-2\. Feature engineering: Create new features that could potentially help in predicting the wait time, such as day of the week, month, holidays, and any significant events that could impact border crossing.
+2\. **Feature engineering:** Create new features that could potentially help in predicting the wait time, such as day of the week, month, holidays, and any significant events that could impact border crossing.
 
-3\. Time-series modeling: Since our data is time-series, we can use a time-series model to predict wait times. We can use various models such as Autoregressive Integrated Moving Average (ARIMA), Seasonal ARIMA (SARIMA), or Prophet.
+3\. **Time-series modeling:** Since our data is time-series, we can use a time-series model to predict wait times. We can use various models such as Autoregressive Integrated Moving Average (ARIMA), Seasonal ARIMA (SARIMA), or Prophet.
 
-4\. Model validation: After training the model, we can use the test dataset to evaluate its performance. We can use metrics such as Mean Absolute Error (MAE) and Mean Squared Error (MSE) to evaluate the model's accuracy.
+4\. **Model validation:** After training the model, we can use the test dataset to evaluate its performance. We can use metrics such as Mean Absolute Error (MAE) and Mean Squared Error (MSE) to evaluate the model's accuracy.
 
-5\. Visualization: Finally, we can visualize the predicted wait times against the actual wait times to understand the model's performance visually.
+5\. **Visualization:** Finally, we can visualize the predicted wait times against the actual wait times to understand the model's performance visually.
 
-Caveats and uncertainties:
+## Caveats and uncertainties:
 
 1\. Corrupt area: Since the area is corrupt, we can not guarantee the authenticity of the data. There could be data manipulation or fabrication, which could impact the model's accuracy.
 
@@ -50,6 +49,7 @@ library(forecast)
 library(tidyverse)
 library(tsibble)
 library(caret)
+library(mlbench)
 ```
 
 ```{r}
@@ -70,7 +70,17 @@ sa_zimbabwe = border_data %>% filter(Direction == "SA-Zimbabwe")
 zimbabwe_sa = border_data %>% filter(Direction == "Zimbabwe-SA")
 ```
 
-## Caret 
+## Caret - Linear Model
+
+-   We can create additional features from the GPS data like:
+
+    -   Day of week
+
+    -   Month
+
+    -   Year
+
+    -   Hour
 
 ```{r}
 # Load the necessary libraries
@@ -110,26 +120,28 @@ mae <- mean(abs(border_predictions - border_data_test$Median_Minutes))
 print(mae)
 ```
 
-
 ```{r}
 summary(border_model)
 ```
 
-## Random Forests 
+## Random Forests
 
-::: {.callout-important}
-This will take awhile to run on a laptop! 
-Beware of running below:
-:::
 
 
 ```{r}
-library(caret)
-library(mlbench)
-
 # Load the dataset
 df = border_data
 df = df %>% select(Count_Events, Median_Minutes,datetime,day_of_week,year)
+```
+
+::: callout-important
+This will take awhile to run on a laptop! Beware of running below:
+:::
+
+```{r}
+#| label: random-forests
+#| cache: true
+
 # Create a train/test split
 set.seed(123)
 trainIndex <- createDataPartition(df$Median_Minutes, p = .8, list = FALSE)
@@ -146,24 +158,5 @@ rf_model
 
 It is important to note, however, that the performance of a random forest model for predicting median border wait time would depend on the quality and relevance of the data and features used to train the model. Additionally, it may be necessary to regularly retrain the model with new data to ensure that it remains accurate over time.
 
-```{r}
-df = border_data%>% 
-  mutate(hour = factor(StartHour)) %>%
-  pivot_wider(names_from = hour, values_from = Count_Events, names_prefix = "hour_")
-```
 
-```{r}
-model <- glm(Count_Events ~ medi, data = border_data, family = "poisson")
-```
-
-```{r}
-# View model summary
-summary(model)
-
-```
-
-To do: 
-- subset by years, model individual years to account for covid 
-- use moving averages
-- interpolate missing median wait time values 
-- try different ARIMA models, GAMs and Prophet library
+TODO: - subset by years, model individual years to account for covid - use moving averages - interpolate missing median wait time values - try different ARIMA models, GAMs and Prophet library

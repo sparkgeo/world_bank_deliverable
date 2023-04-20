@@ -1,0 +1,21 @@
+project: 
+  title: "notebooks"
+  output-dir: _output
+author: "Sparkgeo"
+toc: true
+format:
+  html:
+    theme: zephyr
+    html-math-method: katex
+    code-tools: true
+    self-contained: true
+    embed-resources: true
+    link-external-icon: true
+    link-external-newwindow: true
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+    df-print: kable
+execute:
+  warning: false
+
+
