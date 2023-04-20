@@ -14,7 +14,6 @@ format:
     code-block-bg: true
     code-block-border-left: "#31BAE9"
     df-print: kable
-output_dir: "../outputs"
 execute:
   warning: false
 ---

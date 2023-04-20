@@ -142,7 +142,7 @@ zim_long %>%
 monthly_count %>%
   ggplot(aes(x=month, y=Month_Total, group=as_factor(year), colour=as_factor(year))) +
   geom_line()+
-  labs(y = 'Count of Vehicles Processed', x= "Month", caption = "For Vehicles with GPS*", colour ="Year")
+  labs(y = 'Count of Vehicles Processed', x= "Month", caption = "For Vehicles with GPS*", colour ="Year")+
   scale_color_viridis_d(option = "plasma", end = .7)
 ```
 
