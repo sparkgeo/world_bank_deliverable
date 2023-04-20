@@ -1,0 +1,9 @@
+---
+title: "Getting Started"
+format: html
+editor: visual
+---
+
+Here you'll find various notebooks created by Sparkgeo. Navgiate to the notebooks on the left.
+
+## Installation

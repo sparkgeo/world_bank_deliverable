@@ -1,0 +1,50 @@
+---
+title: "YOLO"
+format: html
+editor: visual
+---
+
+
+First we need to build the correct environment for our YOLO model.
+
+The requirements file can be found here: 
+
+`requirements.txt`
+
+
+## Training Data
+
+Training data can be downloaded from their respective sources. Sparkgeo recommends xView for the object classes relevant to World Bank. Which you can find [here](http://xviewdataset.org/#dataset)
+
+
+----
+
+## Darknet
+
+With Darknet, you can train your own neural networks to recognize patterns and make predictions based on data. 
+The framework is written in the C programming language, which means it is very fast and efficient. This makes it a popular choice for people who need to train neural networks on large datasets or in real-time applications.
+
+One of the most well-known uses of Darknet is in the development of YOLO (You Only Look Once), an object detection algorithm that can identify multiple objects in an image with a single pass. YOLO has been used in a variety of applications, from self-driving cars to surveillance systems.
+
+## YOLO
+
+YOLO (You Only Look Once) is a popular object detection algorithm that can detect multiple objects in an image with high accuracy and speed. It is widely used in applications such as autonomous vehicles, security systems, and augmented reality.
+
+```{python}
+
+```
+
+
+ - Download and install Darknet on your system. The Darknet website has a pre-built binary for Windows and instructions for building from source code on other platforms.
+
+- Acquire a dataset of images and annotations. There are many public datasets available, such as COCO or VOC, that contain images with object annotations. Alternatively, you can create your own dataset by annotating objects in images using tools such as LabelImg.
+
+- Convert the dataset into Darknet format. Darknet uses a specific format for image and annotation files, which can be converted using scripts provided with the framework or third-party tools.
+
+- Train the neural network using Darknet. This involves defining a configuration file that specifies the network architecture and training parameters, and running the darknet executable with the appropriate arguments to start training.
+
+- Evaluate the trained network on test data. This involves running the darknet executable with arguments that specify the test data and network weights, and examining the output to evaluate the performance of the network.
+
+Use the trained network for object detection. This involves running the darknet executable with arguments that specify the image or video to process, and the trained network weights. The output will be a set of bounding boxes and class labels that identify the objects in the input image or video.
+
+
