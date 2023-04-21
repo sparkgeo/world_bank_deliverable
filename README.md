@@ -6,7 +6,7 @@ This repository holds the deliverables that will be given to the World Bank Grou
 * **darknet**: This directory holds the Python 3 interface to Darknet.  It has been modified for use by Sparkgeo.
 * **data**: This directory holds raw and processed data to be used in the notebooks, in addition to test data that can be used to verify operation.
 * **lib**: Compiled libraries that are necessary for the Python 3 interface.  Provided are shared libraries for x86-64 Linux and Arm-based OS-X.
-* **model**: Example modle to run.  This model was trained on a custom merged dataset.
+* **model**: Example model to run.  This model was trained on a custom merged dataset.
 * **notebooks**: Notebooks to perform various processing on data.
 * **src**: Stand-alone Python 3 programs.
 
