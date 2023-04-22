@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: 67f7c049-1f81-4095-b602-3923e2ef6d26
+      url: 'https://quartopub.com/sites/sparkgeo/sparkgeo---world-bank-demo'
