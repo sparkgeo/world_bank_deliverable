@@ -12,7 +12,6 @@ website:
           - text: Source Code
           - url: https://github.com/sparkgeo/world_bank_deliverable
       
-   # logo: 
     style: "docked"
     contents:
       - section: "Getting Started"
