@@ -49,5 +49,6 @@ format:
     df-print: kable
 execute:
   warning: false
+  freeze: auto
 
 
