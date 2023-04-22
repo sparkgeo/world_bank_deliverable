@@ -30,7 +30,7 @@ To approach this problem, we can use a time-series analysis technique. Since we 
 
 ## Caveats and uncertainties:
 
-1\. ***Corrupt area**: Since there has been reports of corruption, we can not guarantee the authenticity of the data. There could be bribes to cross the border quicker than others.
+1\. **Corrupt area**: Since there has been reports of corruption, we can not guarantee the authenticity of the data. There could be bribes to cross the border quicker than others.
 
 2\. **External factors**: There could be external factors such as political instability, social unrest, or natural disasters, which could impact the border wait times. Since our dataset does not include these factors, our model might not perform well in predicting such events.
 
