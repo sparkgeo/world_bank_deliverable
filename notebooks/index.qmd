@@ -4,6 +4,62 @@ format: html
 editor: visual
 ---
 
-Here you'll find various notebooks created by Sparkgeo. Navgiate to the notebooks on the left.
+Here you'll find various notebooks created by Sparkgeo. Navigate to the notebooks on the left.
 
 ## Installation
+
+First `clone` this repository to your local environment.
+
+To run the notebooks locally you need to install the environments for `R` , `Quarto` and `Python`.
+
+## Python
+
+### Conda or Mamba
+#### For Building and TDI Notebooks
+
+To build the environment from a `yml` file using mamba (recommended)
+
+`mamba env create -f environment.yml`
+
+
+### Virtual Environment
+
+#### YOLO
+The best way to run the notebooks and Python applications provided is to create a virtual environment with
+
+```sh
+mkvirtualenv -p python3 worldbank
+```
+
+Inside the virtual environment, run
+
+```sh
+pip install -r requirements.txt
+```
+
+This should install all of the required Python modules into the virtual environment.
+
+## Usage
+For the provided example applications, activate the virtual environment and then run one in this fashion:
+
+```sh
+python src/count_cars.py --detection-file data/processed/test_cars.gpkg --intersect-file data/processed/beitbridge_road_mask_v2.gpkg --output-json cars.geojson
+```
+
+Please see the ReadMe in the notebooks directory for their usage.
+
+### R Projects
+
+To replicate the R environment, you can simply `install.packages('renv')` and open up the R Project file and run  `renv::restore() ` to restore the  `renv ` lockfile to load in all the appropriate libraries.
+
+## Quarto
+
+[Quarto](https://quarto.org/) is an open-source scientific and technical publishing system.
+
+Review [Quarto's Quickstart](https://quarto.org/docs/get-started/) for installation instructions.
+
+To regenerate outputs from Quarto:
+
+`quarto render hello.ipynb --to html`
+
+`quarto render hello.ipynb --to docx`

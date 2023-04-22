@@ -7,10 +7,19 @@ editor: visual
 
 First we need to build the correct environment for our YOLO model.
 
-The requirements file can be found here: 
+The best way to run the notebooks and Python applications provided is to create a virtual environment with
 
-`requirements.txt`
+```sh
+mkvirtualenv -p python3 worldbank
+```
 
+Inside the virtual environment, run
+
+```sh
+pip install -r requirements.txt
+```
+
+This should install all of the required Python modules into the virtual environment.
 
 ## Training Data
 
@@ -30,10 +39,12 @@ One of the most well-known uses of Darknet is in the development of YOLO (You On
 
 YOLO (You Only Look Once) is a popular object detection algorithm that can detect multiple objects in an image with high accuracy and speed. It is widely used in applications such as autonomous vehicles, security systems, and augmented reality.
 
-```{python}
+## Usage
+For the provided example applications, activate the virtual environment and then run one in this fashion:
 
+```sh
+python src/count_cars.py --detection-file data/processed/test_cars.gpkg --intersect-file data/processed/beitbridge_road_mask_v2.gpkg --output-json cars.geojson
 ```
-
 
  - Download and install Darknet on your system. The Darknet website has a pre-built binary for Windows and instructions for building from source code on other platforms.
 
