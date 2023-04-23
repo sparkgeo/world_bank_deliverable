@@ -135,6 +135,8 @@ dmypy.json
 
 notebooks/.Rhistory
 
+/.quarto/
+/_site/
 
 #Mac
 .DS_Store

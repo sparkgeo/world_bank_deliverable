@@ -8,19 +8,20 @@ dependencies:
   - dask
   - gdal >=1.11
   - matplotlib
-  - geopandas
-  - geojson
+  - geopandas==0.12.2
+  - geojson==3.0.1
   - pyproj
   - ca-certificates
   - certifi
   - openssl
   - requests
-  - numpy
+  - numpy==1.24.2
   - pandas
   - shapely
   - dask-geopandas
   - planetary-computer
   - ipykernel
+  - jupyter
   - pip
   - pip:
     - pystac

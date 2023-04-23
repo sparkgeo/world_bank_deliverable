@@ -7,7 +7,6 @@ format:
     theme: zephyr
     html-math-method: katex
     code-tools: true
-    self-contained: true
     embed-resources: true
     link-external-icon: true
     link-external-newwindow: true

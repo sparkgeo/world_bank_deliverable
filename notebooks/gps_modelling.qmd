@@ -5,7 +5,6 @@ format:
   html:
     html-math-method: katex
     code-tools: true
-    self-contained: true
 execute:
   warning: false
 ---
