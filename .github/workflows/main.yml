@@ -1,6 +1,8 @@
 on:
   workflow_dispatch:
   push:
+    paths:
+      - 'notebooks/**'
     branches: main
 
 name: Quarto Publish
