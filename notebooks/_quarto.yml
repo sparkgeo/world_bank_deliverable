@@ -1,6 +1,6 @@
 project: 
   title: "notebooks"
-  output-dir: _output
+  output-dir: _site
   type: website
 website:
   title: "Sparkgeo - World Bank Demo"
