@@ -137,7 +137,7 @@ notebooks/.Rhistory
 
 notebooks/.quarto/
 notebooks/_site/
-
+notebooks/
 #Mac
 .DS_Store
 
