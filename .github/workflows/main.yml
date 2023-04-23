@@ -1,10 +1,14 @@
 on:
   workflow_dispatch:
   push:
+    paths:
+      - 'notebooks/**'
     branches: main
 
 name: Quarto Publish
-
+defaults:
+  run:
+    working-directory: notebooks/
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
