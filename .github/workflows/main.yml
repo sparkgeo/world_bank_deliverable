@@ -6,7 +6,9 @@ on:
     branches: main
 
 name: Quarto Publish
-
+defaults:
+  run:
+    working-directory: notebooks/
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
