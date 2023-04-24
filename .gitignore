@@ -131,6 +131,13 @@ dmypy.json
 # IDEs
 .vscode/
 
+.Rproj.user
+
+notebooks/.Rhistory
+
+notebooks/.quarto/
+notebooks/_site/
+notebooks/
 #Mac
 .DS_Store
 
@@ -150,3 +157,4 @@ notebooks/.Rhistory
 
 # R Environment Variables
 .Renviro
+

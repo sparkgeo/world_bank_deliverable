@@ -1,0 +1,54 @@
+project: 
+  title: "notebooks"
+  output-dir: _site
+  type: website
+website:
+  title: "Sparkgeo - World Bank Demo"
+  page-footer: "Copyright 2023, Sparkgeo"
+  sidebar:
+    tools:
+      - icon: github
+        menu: 
+          - text: Source Code
+          - url: https://github.com/sparkgeo/world_bank_deliverable
+      
+    style: "docked"
+    contents:
+      - section: "Getting Started"
+        contents: 
+          - index.qmd
+      - section: "Working with Border Wait Times"
+        contents: 
+          - gps_data.qmd
+          - gps_eda.qmd
+          - gps_modelling.qmd
+          - Extract_Dates.qmd
+      - section: "Downloading Building Data"
+        contents:
+          - MS_OSM_Data_download.ipynb
+      - section: "Object Detection"
+        contents:
+          - yolo.qmd
+      - section: "TDI Index"
+        contents: 
+          - tdi/skywatch-api-notebook.ipynb
+          - tdi/tdi-notebook.ipynb
+        
+author: "Sparkgeo"
+toc: true
+format:
+  html:
+    theme: zephyr
+    html-math-method: katex
+    code-tools: true
+    embed-resources: true
+    link-external-icon: true
+    link-external-newwindow: true
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+    df-print: kable
+execute:
+  warning: false
+  freeze: auto
+
+

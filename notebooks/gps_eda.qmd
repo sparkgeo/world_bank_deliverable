@@ -1,0 +1,203 @@
+---
+title: "Beitbridge GPS Exploration"
+author: "Sparkgeo"
+toc: true
+format:
+  html:
+    theme: zephyr
+    html-math-method: katex
+    code-tools: true
+    embed-resources: true
+    link-external-icon: true
+    link-external-newwindow: true
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+    df-print: kable
+execute:
+  warning: false
+---
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(skimr)
+library(lubridate)
+library(tidymodels)
+library(tidyverse)
+```
+
+This notebook is exploring the Beitbridge GPS data with plots and limited statistics. Some of these plots are throw-away.
+
+```{r}
+beitbridge_border = read_csv("../data/processed/Beitbridge_Counts_Wait_Time_2018_2022.csv")
+```
+
+```{r}
+beitbridge_border %>%
+  ggplot(aes(x = Count_Events, y = Median_Minutes, group = Direction, col = Direction)) + 
+  geom_point() +
+  scale_color_viridis_d(alpha=0.3,option = "plasma", end = .7) +
+  labs(x = "Count", y = "Median Minutes")
+```
+
+```{r}
+beitbridge_border %>%
+  ggplot(aes(x = Count_Events, y = Median_Minutes, group= as_factor(StartHour), col = as_factor(StartHour))) + 
+  geom_point(alpha = 0.7) +
+  scale_color_viridis_d("Hour", option = "plasma", end = .7, alpha =0.2)+
+  labs(x = "Count", y = "Median Minutes")
+```
+
+# Subsets
+
+## SA - Zimbabwe
+
+```{r}
+sa_zimbabwe = beitbridge_border %>% filter(Direction == "SA-Zimbabwe")
+```
+
+# Monthly Count
+
+```{r}
+ monthly_count_sa = sa_zimbabwe %>% group_by(year=year(StartDate), month=month(StartDate, label=TRUE)) %>% summarize(Month_Total = sum(Count_Events))
+```
+
+```{r}
+monthly_count_sa %>%
+  ggplot(aes(x=month, y=Month_Total, group=as_factor(year), colour=as_factor(year))) +
+  geom_line()+
+  labs(y = 'Count of Vehicles Processed', x= "Month", caption = "For Vehicles with GPS*", colour ="Year")+
+  scale_color_viridis_d(option = "magma", end = .7)
+```
+
+We'll start with the South Africa --> Zimbabwe direction. We can tell from the plot above there seems to be higher counts within hour `0`.
+
+We can filter and slice our graph by the hour. Let's look at `0`.
+
+```{r}
+sa_zimbabwe %>%
+  filter(StartHour == 0 )%>%
+  ggplot(aes(x = Count_Events, y = Median_Minutes, group= as_factor(StartHour), col = as_factor(StartHour))) + 
+  geom_point(alpha = 0.7) +
+  scale_color_viridis_d("Hour",option = "plasma", end = .7)+
+  labs(x = "Count", y = "Median Minutes")
+```
+
+
+```{r}
+sa_zimbabwe %>%
+  filter(StartHour == 0 )%>%
+  ggplot(aes(x = Count_Events, y = Median_Minutes, group = as_factor(year(StartDate)), col = as_factor(year(StartDate)))) +
+  geom_point(alpha = 0.7) +
+  scale_color_viridis_d("Year",option = "plasma", end = .7)+
+  labs(x = "Count", y = "Median Minutes")
+```
+
+Violin plot zoomed in by start hour 0 and Year.
+```{r}
+sa_zimbabwe %>%
+  filter(StartHour == 0 )%>%
+  ggplot(aes(x = as_factor(year(StartDate)), y = Median_Minutes)) +
+  geom_violin(alpha = 0.7) +
+  scale_color_viridis_d("Year",option = "plasma", end = .7)+
+  labs(x = "Year", y = "Median Minutes")
+```
+
+```{r}
+sa_zimbabwe %>%
+  filter(StartHour == 0 )%>%
+  ggplot(aes(x = Count_Events, y = Median_Minutes, group = as_factor(wday(StartDate, TRUE)), col = as_factor(wday(StartDate, TRUE)))) +
+  geom_point(alpha = 0.7) +
+  scale_color_viridis_d("Day of Week",option = "plasma", end = .7)+
+  labs(x = "Count", y = "Median Minutes")
+```
+
+```{r}
+sa_zimbabwe %>%
+  filter(StartHour == 0 )%>%
+  ggplot(aes(x = Median_Minutes, y = as_factor(wday(StartDate, TRUE)), group = as_factor(wday(StartDate, TRUE)), col = as_factor(wday(StartDate, TRUE)))) +
+  geom_boxplot(alpha = 0.7) +
+  scale_color_viridis_d("Day of Week",option = "plasma", end = .7)+
+  labs(x = "Count", y = "Median Minutes")
+```
+
+
+## Day of Week
+
+Let's look at day of week across the study period.
+```{r}
+sa_zimbabwe %>%
+  ggplot(aes(x = Count_Events, y = Median_Minutes, group= as_factor(wday(StartDate, TRUE)), col = as_factor(wday(StartDate, TRUE)))) + 
+  geom_point(alpha = 0.7) +
+  scale_color_viridis_d("Day of Week", option = "plasma", end = .7, alpha =0.5)+
+  labs(x = "Count", y = "Median Minutes")
+```
+
+## Zimbabwe - SA
+
+```{r}
+zimbabwe_sa = beitbridge_border %>% filter(Direction == "Zimbabwe-SA")
+```
+
+
+```{r}
+zimbabwe_sa %>%
+  filter(year(StartDate)=='2019')%>%
+  ggplot(aes(x = Count_Events, y = Median_Minutes, group = as_factor(year(StartDate)), col = as_factor(year(StartDate)))) + 
+  geom_point(alpha = 0.7) +
+   # geom_smooth(method = lm, se = FALSE) +
+  scale_color_viridis_d("Year", option = "plasma", end = .7)+
+  labs(x = "Count", y = "Median Minutes")
+```
+
+Convert to long format for plotting
+
+```{r}
+zim_long = zimbabwe_sa %>%
+  select(-Direction)%>%
+  pivot_longer(cols = c(Median_Minutes, Bottom_10__Minutes, Top_10__Minutes), values_to = 'minutes')
+```
+
+```{r}
+zim_long %>%
+  filter(StartDate == '2018-01-01' & Count_Events > 0)%>%
+  mutate(name = str_replace(name,"_"," "))%>%
+   mutate(name = str_replace(name,"__"," "))%>%
+  ggplot(aes(x = StartHour, y = minutes, group = name, col = name))+
+  geom_point()+
+  geom_line() +
+  labs(x = "Hour of Day", y = "Minutes", col = "Legend")
+```
+
+```{r}
+ zimbabwe_sa %>%
+  filter(StartDate == '2022-12-30')%>%
+  ggplot(aes(x = StartHour, y = Median_Minutes), colour = 'blue')+
+  geom_point()+
+  geom_line(colour = 'blue')+
+  geom_ribbon(aes(ymin = Bottom_10__Minutes, ymax = Top_10__Minutes), fill = 'light blue', alpha = 0.4)+
+  labs(x = "Hour", y="Median Minutes")
+```
+
+## Daily
+
+```{r}
+ zimbabwe_sa %>% group_by(StartDate) %>% summarize(Day_Total = sum(Count_Events))%>%ggplot(aes(x=StartDate, y=Day_Total))+geom_bar(stat = "identity")
+```
+
+# Monthly
+
+```{r}
+ monthly_count = zimbabwe_sa %>% group_by(year=year(StartDate), month=month(StartDate, label=TRUE)) %>% summarize(Month_Total = sum(Count_Events))
+```
+
+```{r}
+monthly_count %>%
+  ggplot(aes(x=month, y=Month_Total, group=as_factor(year), colour=as_factor(year))) +
+  geom_line()+
+  labs(y = 'Count of Vehicles Processed', x= "Month", caption = "For Vehicles with GPS*", colour ="Year")+
+  scale_color_viridis_d(option = "plasma", end = .7)
+```
+
+A clear difference during Covid and lock-downs when aggregated at a monthly scale.

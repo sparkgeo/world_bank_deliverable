@@ -14,6 +14,7 @@ import random
 import os
 import numpy as np
 import cv2
+import platform
 
 class BOX(Structure):
     _fields_ = [("x", c_float),
@@ -249,15 +250,12 @@ def generate_darknet_image(image: cv2.Mat, network_width: int, network_height: i
 
     return darknet_image, ratio_width, ratio_height
 
-if os.name == "posix":
-    # cwd = os.path.dirname(__file__)
-    # lib = CDLL(cwd + "/libdarknet.so", RTLD_GLOBAL)
+if platform.system() == "Darwin":
+    pdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+    lib = CDLL(pdir + "/lib/libdarknet_mac.so", RTLD_GLOBAL)
+elif os.name == "posix":
     pdir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
     lib = CDLL(pdir + "/lib/libdarknet.so", RTLD_GLOBAL)
-elif os.name == "nt":
-    cwd = os.path.dirname(__file__)
-    os.environ['PATH'] = cwd + ';' + os.environ['PATH']
-    lib = CDLL("darknet.dll", RTLD_GLOBAL)
 else:
     print("Unsupported OS")
     exit

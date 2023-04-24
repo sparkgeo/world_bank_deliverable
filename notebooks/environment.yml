@@ -1,11 +1,34 @@
-name: osm-extract
+name: wbnb
 channels:
   - conda-forge
+  - defaults
 dependencies:
-  - python=3.9
+  - python=3.10
+  - ipython
+  - dask
+  - gdal >=1.11
+  - matplotlib
+  - geopandas==0.12.2
+  - geojson==3.0.1
+  - pyproj
+  - ca-certificates
+  - certifi
+  - openssl
+  - requests
+  - numpy==1.24.2
+  - pandas
+  - shapely
+  - dask-geopandas
+  - planetary-computer
+  - ipykernel
+  - jupyter
   - pip
-  - osmnx
-  - geopandas
-  - jupyterlab
-  - notebook
+  - pip:
+    - pystac
+    - pystac-client
+    - rasterio
+    - pyproj
+    - stackstac
+    - osmnx
+    - fiona
   
