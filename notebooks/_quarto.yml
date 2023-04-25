@@ -29,8 +29,9 @@ website:
       - section: "Object Detection"
         contents:
           - yolo.qmd
-      - section: "TDI Index"
+      - section: "Traffic Density Index (TDI)"
         contents: 
+          - tdi/tdi_documentation.ipynb
           - tdi/skywatch-api-notebook.ipynb
           - tdi/tdi-notebook.ipynb
         
