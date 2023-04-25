@@ -1,4 +1,4 @@
-name: wbnb
+name: wb-spk-env
 channels:
   - conda-forge
   - defaults
