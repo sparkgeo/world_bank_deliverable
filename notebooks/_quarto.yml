@@ -40,7 +40,7 @@ toc: true
 format:
   html:
     theme: zephyr
-    html-math-method: latex
+    html-math-method: mathjax
     code-tools: true
     embed-resources: true
     link-external-icon: true
