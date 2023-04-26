@@ -5,7 +5,7 @@ editor: visual
 ---
 
 Here you'll find various notebooks created by Sparkgeo. Navigate to the notebooks on the left.
-To view the source code visit the (github repo)[https://github.com/sparkgeo/world_bank_deliverable]
+To view the source code visit the [github repo](https://github.com/sparkgeo/world_bank_deliverable)
 
 ## Installation
 
