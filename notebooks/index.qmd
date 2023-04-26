@@ -5,6 +5,7 @@ editor: visual
 ---
 
 Here you'll find various notebooks created by Sparkgeo. Navigate to the notebooks on the left.
+To view the source code visit the (github repo)[https://github.com/sparkgeo/world_bank_deliverable]
 
 ## Installation
 
@@ -40,6 +41,8 @@ Please see the Readme in the notebooks directory for their usage.
 To replicate the R environment, you can simply `install.packages('renv')` and open up the R Project file and run  `renv::restore() ` to restore the  `renv ` lockfile to load in all the appropriate libraries.
 
 ### Usage
+
+Restoring the `renv` above will allow you to run any `.qmd` notebooks.
 
 ## Quarto
 
