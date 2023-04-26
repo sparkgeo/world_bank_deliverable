@@ -14,9 +14,7 @@ website:
       
     style: "docked"
     contents:
-      - section: "Getting Started"
-        contents: 
-          - index.qmd
+      - index.qmd
       - section: "Working with Border Wait Times"
         contents: 
           - gps_data.qmd

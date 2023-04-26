@@ -57,9 +57,34 @@ To regenerate outputs from Quarto:
 `quarto render hello.ipynb --to docx`
 ## Docker
 
+In this Dockerfile, we start from a base Ubuntu 20.04 LTS image and set the working directory to `/`. We then install system packages that will be necessary for building and running some of the libraries we need.
+
+Next, we install Miniconda and use it to install mamba. We set the PATH environment variable to include the Miniconda executable so we can use it later.
+
+We copy the environment.yml file to the container and use mamba to create a conda environment called my_env based on the specifications in environment.yml. We then set up renv by installing it with remotes::install_github().
+
+We set the PATH environment variable to include the R executable within the my_env environment. We then use pip to install Jupyter and Quarto, two notebook environments that can run both R and Python code.
+
+Finally, we expose port 8888 for Jupyter Notebook and start it with a command that specifies the IP and port to listen on and disables the browser.
+
+Make sure to replace environment.yml with your own environment file and modify any other settings as needed.
+
 Build the docker container
 
 `docker build -t wbnb .`
+
+Once the image has finished building, you can start a container using the following command:
+
+`docker run -p 8888:8888 wb-spk-env`
+
+This command maps port 8888 in the container to port 8888 on your computer so you can access the Jupyter Notebook running in the container.
+
+To access Quarto, you'll need to start a new notebook with the Quarto kernel. Here's how:
+
+Open a web browser and navigate to http://localhost:8888.
+Click the "New" button in the upper right corner and select "Quarto" from the dropdown menu.
+A new Quarto notebook will open. You can use this notebook to write and render Quarto documents.
+
 
 Run the docker container and jupyter notebook from port 8888 from your active directory and share the volumnes 
 
