@@ -52,6 +52,8 @@ To replicate the R environment, you can simply `install.packages('renv')` and op
 
 ### Usage
 
+Restoring the `renv` above will allow you to run any `.qmd` notebooks.
+
 ## Quarto
 
 [Quarto](https://quarto.org/) is an open-source scientific and technical publishing system.
