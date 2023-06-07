@@ -1,7 +1,7 @@
 # World Bank Group Delivery from Sparkgeo
 
 This repository holds the deliverables that will be given to the World Bank Group (WBG). There are several components to this that are broken up into various directories.
-Some of this work may be incomplete, as the project ended before implementation.
+Some of this work may be incomplete.
 ## Demo
 
 View the notebook demo website [here](https://sparkgeo.quarto.pub/sparkgeo---world-bank-demo/)
